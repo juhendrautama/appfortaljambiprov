@@ -53,7 +53,7 @@ class _MenuLainnyaState extends State<MenuLainnya> {
           const SizedBox(height: 10),
           Wrap(
             alignment: WrapAlignment.center,
-            spacing: 30, // Jarak antar item horizontal
+            spacing: 50, // Jarak antar item horizontal
             runSpacing: 15, // Jarak antar item vertikal jika pindah baris
             children: [
               menuItem(Icons.report_problem, "Span Lapor", Colors.orange),
@@ -75,10 +75,14 @@ class _MenuLainnyaState extends State<MenuLainnya> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 22,
-            child: Icon(icon, color: iconColor, size: 16),
+          Container(
+            width: 125,
+            height: 35,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
           ),
           const SizedBox(height: 5),
           Text(

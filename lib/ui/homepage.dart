@@ -1,3 +1,4 @@
+import 'package:appfortaljambiprov/cubit/berita_cubit.dart';
 import 'package:appfortaljambiprov/ui/tools/infocuaca.dart';
 import 'package:appfortaljambiprov/ui/tools/mediasosial.dart';
 import 'package:appfortaljambiprov/ui/tools/menalainnya.dart';
@@ -5,6 +6,7 @@ import 'package:appfortaljambiprov/ui/tools/menutengah.dart';
 import 'package:appfortaljambiprov/ui/tools/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    context.read<BeritaCubit>().fetchBerita();
     // Bikin status bar transparan dan hilangkan padding sistem
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -135,6 +137,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          // ===== Sticky Search Bar di atas =====
         ],
       ),
     );
