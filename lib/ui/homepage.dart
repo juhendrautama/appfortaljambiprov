@@ -1,4 +1,5 @@
 import 'package:appfortaljambiprov/cubit/berita_cubit.dart';
+import 'package:appfortaljambiprov/ui/tools/formcari.dart';
 import 'package:appfortaljambiprov/ui/tools/infocuaca.dart';
 import 'package:appfortaljambiprov/ui/tools/mediasosial.dart';
 import 'package:appfortaljambiprov/ui/tools/menalainnya.dart';
@@ -19,7 +20,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<BeritaCubit>().fetchBerita();
+
+    context.read<BeritaCubit>().fetchBerita(); //memanggil berita slider
     // Bikin status bar transparan dan hilangkan padding sistem
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -101,42 +103,7 @@ class _HomePageState extends State<HomePage> {
           ),
 
           // ===== Sticky Search Bar di atas =====
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 55,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(208, 81, 195, 224),
-                    Color.fromARGB(208, 62, 169, 227),
-                    Color.fromARGB(208, 62, 169, 227),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Cari...',
-                  hintStyle: const TextStyle(color: Color.fromARGB(179, 44, 44, 44)),
-                  prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 40, 39, 39)),
-                  filled: true,
-                  fillColor: const Color.fromARGB(255, 246, 247, 248),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: const TextStyle(color: Color.fromARGB(255, 32, 32, 32)),
-                cursorColor: const Color.fromARGB(255, 13, 13, 13),
-              ),
-            ),
-          ),
+          FormCari(),
           // ===== Sticky Search Bar di atas =====
         ],
       ),

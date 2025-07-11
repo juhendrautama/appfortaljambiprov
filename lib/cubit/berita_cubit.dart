@@ -35,3 +35,46 @@ class BeritaCubit extends Cubit<BeritaState> {
     }
   }
 }
+
+// proses berita cari
+
+class BeritaStateCari {
+  final List<BeritaCari> beritaList;
+  final bool isLoading;
+  final String? error;
+
+  BeritaStateCari({required this.beritaList, this.isLoading = false, this.error});
+
+  BeritaStateCari copyWith({
+    List<BeritaCari>? beritaList,
+    bool? isLoading,
+    String? error,
+  }) {
+    return BeritaStateCari(
+      beritaList: beritaList ?? this.beritaList,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+    );
+  }
+}
+
+class BeritaCubitCari extends Cubit<BeritaStateCari> {
+  final BeritaRepositoryCari repository;
+
+  BeritaCubitCari(this.repository) : super(BeritaStateCari(beritaList: []));
+
+  void fetchBerita() async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      final berita = await repository.fetchBerita();
+      emit(state.copyWith(beritaList: berita, isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, error: e.toString()));
+    }
+  }
+
+  void cariBerita(String query) {
+    final filtered = state.beritaList.where((b) => b.judul.toLowerCase().contains(query.toLowerCase())).toList();
+    emit(state.copyWith(beritaList: filtered));
+  }
+}

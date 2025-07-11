@@ -23,6 +23,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => CuacaCubit(CuacaRepository())),
         BlocProvider(create: (_) => BeritaCubit(BeritaRepository())),
+        BlocProvider(
+          create: (_) => BeritaCubitCari(BeritaRepositoryCari()),
+          child: HomePage(),
+        )
       ],
       child: MaterialApp(
         title: 'Portal Provinsi Jambi',

@@ -26,3 +26,28 @@ class BeritaRepository {
     }
   }
 }
+
+// proses cari
+
+class BeritaRepositoryCari {
+  final String _url = "https://api-portal.jhu.my.id/ApiJambiprov/Berita35";
+  final String _token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NTE4NzQ1MzYsImRhdGEiOnsibmFtYV9hcGxpa2FzaSI6IkFQSSBKYW1iaSIsImFrc2VzIjoicHVibGlrIn19.4FyrCbDC7bA7vmrd3OKzh-qHXBDnMeMfPuQkrY2mEE4';
+
+  Future<List<BeritaCari>> fetchBerita() async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+    var request = http.Request('POST', Uri.parse(_url));
+    request.bodyFields = {'token': _token};
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      final String responseBody = await response.stream.bytesToString();
+      final List<dynamic> data = jsonDecode(responseBody);
+      return data.map((item) => BeritaCari.fromJson(item)).toList();
+    } else {
+      throw Exception('Gagal mengambil data: ${response.reasonPhrase}');
+    }
+  }
+}
