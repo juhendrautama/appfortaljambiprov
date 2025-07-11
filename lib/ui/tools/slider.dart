@@ -1,5 +1,6 @@
 import 'package:appfortaljambiprov/cubit/berita_cubit.dart';
 import 'package:appfortaljambiprov/model/berita_model.dart';
+import 'package:appfortaljambiprov/ui/detailberita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -113,7 +114,16 @@ class _CustomSliderWidgetState extends State<CustomSliderWidget> {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigasi ke detail menggunakan id
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailBerita(
+                            title: berita.judul,
+                            content: berita.konten,
+                            imageUrl: berita.gambar,
+                          ),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(197, 255, 255, 255),

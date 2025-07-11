@@ -51,9 +51,8 @@ class _MenuTengahState extends State<MenuTengah> {
           ),
           const SizedBox(height: 10.0),
           Wrap(
-            spacing: 55,
-            runSpacing: 5,
-            alignment: WrapAlignment.center,
+            spacing: 60,
+            runSpacing: 10,
             children: [
               _buildMenuButton(Icons.people, "Publik", Colors.orange),
               _buildMenuButton(Icons.business_center, "Pengadaan", Colors.blue),
@@ -63,6 +62,7 @@ class _MenuTengahState extends State<MenuTengah> {
               _buildMenuButton(Icons.explore, "Jelajah", Colors.redAccent),
             ],
           ),
+          const SizedBox(height: 5.0),
         ],
       ),
     );

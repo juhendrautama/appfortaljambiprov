@@ -1,4 +1,5 @@
 import 'package:appfortaljambiprov/cubit/berita_cubit.dart';
+import 'package:appfortaljambiprov/ui/detailberita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,27 +39,53 @@ class _FormCariState extends State<FormCari> {
                 if (state.beritaList.isEmpty) {
                   return const Center(child: Text('Tidak ada hasil'));
                 }
-                return ListView.builder(
-                  controller: scrollController,
-                  itemCount: state.beritaList.length,
-                  itemBuilder: (context, index) {
-                    final berita = state.beritaList[index];
-                    return ListTile(
-                      leading: Image.network(
-                        berita.gambar,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                      child: Text(
+                        'Hasil Pencarian',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      title: Text(berita.judul),
-                      subtitle: Text(berita.tanggal),
-                      onTap: () {
-                        // Bisa tambahkan navigasi ke detail
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
+                    ),
+                    const Divider(thickness: 1, height: 1),
+                    Expanded(
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: state.beritaList.length,
+                        itemBuilder: (context, index) {
+                          final berita = state.beritaList[index];
+                          return ListTile(
+                            leading: Image.network(
+                              berita.gambar,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                            ),
+                            title: Text(berita.judul),
+                            subtitle: Text(berita.tanggal),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailBerita(
+                                    title: berita.judul,
+                                    content: berita.konten,
+                                    imageUrl: berita.gambar,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
               },
             );
@@ -115,7 +142,7 @@ class _FormCariState extends State<FormCari> {
                       padding: EdgeInsets.all(2.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(213, 5, 43, 116),
+                          backgroundColor: Color.fromARGB(208, 23, 116, 167),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),

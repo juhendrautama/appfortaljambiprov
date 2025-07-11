@@ -4,9 +4,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="appfortaljambiprov"
+        android:label="Portal Provinsi Jambi"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/logo">
         
         <activity
             android:name=".MainActivity"

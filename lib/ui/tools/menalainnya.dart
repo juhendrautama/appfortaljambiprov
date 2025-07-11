@@ -56,8 +56,8 @@ class _MenuLainnyaState extends State<MenuLainnya> {
             spacing: 50, // Jarak antar item horizontal
             runSpacing: 15, // Jarak antar item vertikal jika pindah baris
             children: [
-              menuItem(Icons.report_problem, "Span Lapor", Colors.orange),
-              menuItem(Icons.phone_in_talk, "Telepon Darurat", Colors.red),
+              menuItem(Icons.forum, "Span Lapor", const Color.fromARGB(255, 255, 8, 0)),
+              menuItem(Icons.phone_in_talk, "Telepon Darurat", const Color.fromARGB(255, 244, 127, 54)),
               // Tambahkan menu lain di sini jika perlu
               // menuItem(Icons.mail, "Email", Colors.green),
             ],

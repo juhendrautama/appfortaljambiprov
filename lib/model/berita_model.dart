@@ -2,12 +2,14 @@ class Berita {
   final String id;
   final String judul;
   final String tanggal;
+  final String konten;
   final String gambar;
 
   Berita({
     required this.id,
     required this.judul,
     required this.tanggal,
+    required this.konten,
     required this.gambar,
   });
 
@@ -16,6 +18,7 @@ class Berita {
       id: json['id'] ?? '',
       judul: json['judul'] ?? '-',
       tanggal: json['tanggal'] ?? '-', // atau json['created_at']?
+      konten: json['konten'] ?? '-',
       gambar: json['galeri_gambar'] ?? 'https://via.placeholder.com/400x200.png?text=No+Image',
     );
   }

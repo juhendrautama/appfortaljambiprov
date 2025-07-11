@@ -62,6 +62,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: [
+          // ===== Sticky Search Bar di atas =====
+          FormCari(),
+          // ===== Sticky Search Bar di atas =====
           // ===== Konten scrollable =====
           Padding(
             padding: const EdgeInsets.only(top: 60), // supaya tidak ketumpuk pencarian
@@ -101,10 +104,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          // ===== Sticky Search Bar di atas =====
-          FormCari(),
-          // ===== Sticky Search Bar di atas =====
         ],
       ),
     );

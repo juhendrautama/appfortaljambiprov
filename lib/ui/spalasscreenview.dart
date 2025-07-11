@@ -9,11 +9,17 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SplashView(
       backgroundColor: Colors.white,
-      loadingIndicator: const CircularProgressIndicator(),
-      logo: Image.asset(
-        'assets/logo.png', // Ganti dengan logo kamu
+      loadingIndicator: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/logo.png',
+          ),
+          const SizedBox(height: 24), // Jarak antara logo dan loading
+          const CircularProgressIndicator(),
+        ],
       ),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       done: Done(
         const HomePage(),
       ),
