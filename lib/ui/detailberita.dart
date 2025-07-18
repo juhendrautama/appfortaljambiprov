@@ -52,7 +52,7 @@ class DetailBerita extends StatelessWidget {
               imageUrl: imageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
-              height: 220,
+              height: 350,
               placeholder: (context, url) => Container(color: Colors.grey[300], height: 220),
               errorWidget: (context, url, error) => Container(
                 color: Colors.grey,
@@ -81,7 +81,10 @@ class DetailBerita extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    content,
+                    content
+                        .replaceAll(RegExp(r'<[^>]*>'), '') // Hapus semua tag HTML
+                        .replaceAll(RegExp(r'&[^;\s]+;'), '') // Hapus entitas HTML seperti &emsp;, &nbsp;, dll
+                        .trim(), // Hilangkan spasi awal/akhir
                     textAlign: TextAlign.justify,
                     style: const TextStyle(fontSize: 16),
                   ),

@@ -1,7 +1,9 @@
 import 'package:appfortaljambiprov/cubit/berita_cubit.dart';
 import 'package:appfortaljambiprov/cubit/cuaca_cubit.dart';
+import 'package:appfortaljambiprov/cubit/l_pengaduan_cubit.dart';
 import 'package:appfortaljambiprov/repository/berita_repository.dart';
 import 'package:appfortaljambiprov/repository/cuaca_repository.dart';
+import 'package:appfortaljambiprov/repository/l_pengaduan_repository.dart';
 import 'package:appfortaljambiprov/ui/Homepage.dart';
 import 'package:appfortaljambiprov/ui/spalasscreenview.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => BeritaCubitCari(BeritaRepositoryCari()),
           child: HomePage(),
+        ),
+        BlocProvider(
+          create: (context) => LayananPengaduanCubit(LayananPengaduanRepository())..fetchLayanan(),
         )
       ],
       child: MaterialApp(

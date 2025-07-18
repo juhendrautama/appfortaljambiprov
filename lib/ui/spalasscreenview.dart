@@ -16,6 +16,22 @@ class SplashScreen extends StatelessWidget {
             'assets/logo.png',
           ),
           const SizedBox(height: 24), // Jarak antara logo dan loading
+          Text(
+            'Portal Provinsi Jambi',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              foreground: Paint()
+                ..shader = LinearGradient(
+                  colors: <Color>[
+                    const Color.fromARGB(255, 243, 240, 33),
+                    const Color.fromARGB(255, 21, 18, 1),
+                  ],
+                ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16), // Jarak antara text dan loading
           const CircularProgressIndicator(),
         ],
       ),

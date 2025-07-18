@@ -1,4 +1,8 @@
+import 'package:appfortaljambiprov/cubit/l_pengaduan_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:installed_apps/installed_apps.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuLainnya extends StatefulWidget {
   const MenuLainnya({super.key});
@@ -56,10 +60,101 @@ class _MenuLainnyaState extends State<MenuLainnya> {
             spacing: 50, // Jarak antar item horizontal
             runSpacing: 15, // Jarak antar item vertikal jika pindah baris
             children: [
-              menuItem(Icons.forum, "Span Lapor", const Color.fromARGB(255, 255, 8, 0)),
-              menuItem(Icons.phone_in_talk, "Telepon Darurat", const Color.fromARGB(255, 244, 127, 54)),
-              // Tambahkan menu lain di sini jika perlu
-              // menuItem(Icons.mail, "Email", Colors.green),
+              BlocBuilder<LayananPengaduanCubit, LayananPengaduanState>(
+                builder: (context, state) {
+                  if (state is LayananPengaduanLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is LayananPengaduanLoaded) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: menuItem(
+                              "Telepon Darurat",
+                              'https://img.icons8.com/ios-filled/50/phone.png',
+                              () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Telepon Darurat ditekan')),
+                                );
+                              },
+                            ),
+                          ),
+                          BlocBuilder<LayananPengaduanCubit, LayananPengaduanState>(
+                            builder: (context, state) {
+                              if (state is LayananPengaduanLoading) {
+                                return const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 50),
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (state is LayananPengaduanLoaded) {
+                                return Row(
+                                  children: state.layanan.map((layanan) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: menuItem(
+                                        layanan.namaAplikasi,
+                                        'https://api-portal.jhu.my.id/img/layanan_pengaduan/${layanan.logo}',
+                                        () async {
+                                          final packageName = layanan.link;
+                                          bool isInstalled = await InstalledApps.isAppInstalled(packageName) ?? false;
+
+                                          if (isInstalled) {
+                                            InstalledApps.startApp(packageName);
+                                          } else {
+                                            if (layanan.kodeTampilan == '1') {
+                                              final playStoreUrl = 'https://play.google.com/store/apps/details?id=$packageName';
+
+                                              if (await canLaunchUrl(Uri.parse(playStoreUrl))) {
+                                                await launchUrl(
+                                                  Uri.parse(playStoreUrl),
+                                                  mode: LaunchMode.externalApplication,
+                                                );
+                                              } else {
+                                                if (!context.mounted) return;
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Tidak dapat membuka Play Store untuk ${layanan.namaAplikasi}')),
+                                                );
+                                              }
+                                            } else {
+                                              if (!context.mounted) return;
+                                              final Uri url = Uri.parse(layanan.link);
+                                              if (await canLaunchUrl(url)) {
+                                                await launchUrl(url, mode: LaunchMode.externalApplication);
+                                              } else {
+                                                debugPrint('Tidak dapat membuka URL: ${layanan.link}');
+                                              }
+                                            }
+                                          }
+                                        },
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              } else if (state is LayananPengaduanError) {
+                                return Text(
+                                  'Gagal memuat data: ${state.message}',
+                                  style: const TextStyle(color: Colors.red),
+                                );
+                              } else {
+                                return const SizedBox.shrink();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (state is LayananPengaduanError) {
+                    return Text(
+                      'Gagal memuat data: ${state.message}',
+                      style: const TextStyle(color: Colors.red),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
             ],
           ),
         ],
@@ -67,11 +162,9 @@ class _MenuLainnyaState extends State<MenuLainnya> {
     );
   }
 
-  Widget menuItem(IconData icon, String label, Color iconColor) {
+  Widget menuItem(String label, String imageUrl, [VoidCallback? onTap]) {
     return GestureDetector(
-      onTap: () {
-        // Aksi ketika ditekan
-      },
+      onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -82,7 +175,17 @@ class _MenuLainnyaState extends State<MenuLainnya> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(25),
             ),
-            child: Icon(icon, color: iconColor, size: 20),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 5),
           Text(

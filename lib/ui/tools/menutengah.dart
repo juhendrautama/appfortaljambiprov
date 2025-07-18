@@ -59,7 +59,7 @@ class _MenuTengahState extends State<MenuTengah> {
               _buildMenuButton(Icons.account_balance, "Pemerintah", Colors.green),
               _buildMenuButton(Icons.insert_chart, "Data & Info", Colors.purple),
               _buildMenuButton(Icons.language, "Website", Colors.teal),
-              _buildMenuButton(Icons.explore, "Jelajah", Colors.redAccent),
+              _buildMenuButton(Icons.location_on_outlined, "Jelajah", Colors.redAccent),
             ],
           ),
           const SizedBox(height: 5.0),
